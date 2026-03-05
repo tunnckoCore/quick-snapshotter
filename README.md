@@ -5,7 +5,7 @@ A Google Chrome extension that allows you to effortlessly select and capture scr
 ## Features
 - **Precise Element Selection**: Hover over elements to see exactly what will be captured. Elements larger than the screen are smartly bounded to your visible viewport so captures never end up blank.
 - **Drag Selection**: Click and drag to capture a free-form region anywhere on the screen.
-- **Resizable Area**: Once a selection is locked, use the corner and edge handles to fine-tune your capture area.
+- **Resizable Area**: Once a selection is locked, use the corner and edge handles to fine-tune your capture.
 - **Action Menu**: Click to lock onto an element or finish dragging to reveal quick actions.
 - **Download**: Instantly download the cropped screenshot.
 - **Copy to Clipboard**: Copy the image directly to your clipboard for easy pasting anywhere.

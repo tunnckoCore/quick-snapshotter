@@ -3,7 +3,13 @@
   "name": "Quick Snapshotter",
   "version": "1.0",
   "description": "Right-click to select and screenshot an element.",
-  "permissions": ["contextMenus", "activeTab", "scripting", "downloads", "storage"],
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "downloads",
+    "storage"
+  ],
   "background": {
     "service_worker": "src/background.js"
   },

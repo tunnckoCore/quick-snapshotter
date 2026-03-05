@@ -7,7 +7,7 @@ A Google Chrome extension that allows you to effortlessly select and capture scr
 - **Drag Selection**: Click and drag to capture a free-form region anywhere on the screen.
 - **Action Menu**: Click to lock onto an element or finish dragging to reveal quick actions.
 - **Download**: Instantly download the cropped screenshot.
-- **Copy to Clipboard**: Copy the image directly to your clipboard for easy pasting into documents or chat apps.
+- **Copy to Clipboard**: Copy the image directly to your clipboard for easy pasting anywhere.
 - **Customizable**: Set global shortcuts and configure your default download behavior via the extension's popup menu.
 
 ## Installation

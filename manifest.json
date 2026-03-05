@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Quick Snapshotter",
+  "version": "1.0",
+  "description": "Right-click to select and screenshot an element.",
+  "permissions": ["contextMenus", "activeTab", "scripting", "downloads"],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "action": {
+    "default_title": "Screenshot Element"
+  }
+}

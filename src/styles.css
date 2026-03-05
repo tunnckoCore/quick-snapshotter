@@ -1,0 +1,59 @@
+#screenshot-extension-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2147483645;
+  background: transparent;
+  cursor: crosshair;
+}
+
+#screenshot-extension-highlight {
+  position: fixed;
+  z-index: 2147483646;
+  border: 2px solid #007bff;
+  background: rgba(0, 123, 255, 0.2);
+  pointer-events: none;
+  box-sizing: border-box;
+  display: none;
+  transition: border 0.1s, background 0.1s;
+}
+
+#screenshot-extension-actions {
+  position: fixed;
+  z-index: 2147483647;
+  display: none; /* Flex when active */
+  gap: 8px;
+  background: #202124;
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+#screenshot-extension-actions button {
+  appearance: none;
+  border: none;
+  background: #3c4043;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+
+#screenshot-extension-actions button:hover {
+  background: #4a4d51;
+}
+
+#screenshot-btn-download, #screenshot-btn-copy {
+  background: #8ab4f8 !important;
+  color: #202124 !important;
+}
+
+#screenshot-btn-download:hover, #screenshot-btn-copy:hover {
+  background: #aecbfa !important;
+}

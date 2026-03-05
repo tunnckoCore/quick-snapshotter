@@ -1,0 +1,91 @@
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: "screenshot-element",
+    title: "Screenshot Element",
+    contexts: ["all"]
+  });
+});
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === "screenshot-element") {
+    startSelection(tab.id);
+  }
+});
+
+chrome.action.onClicked.addListener((tab) => {
+  startSelection(tab.id);
+});
+
+function startSelection(tabId) {
+  chrome.scripting.insertCSS({
+    target: { tabId: tabId },
+    files: ["src/styles.css"]
+  });
+  chrome.scripting.executeScript({
+    target: { tabId: tabId },
+    files: ["src/content.js"]
+  });
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "ELEMENT_SELECTED") {
+    const { rect, dpr, action } = message;
+    
+    // Slight delay to allow the highlight overlay to disappear before capturing
+    setTimeout(() => {
+      chrome.tabs.captureVisibleTab(sender.tab.windowId, { format: "png" }, (dataUrl) => {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+          sendResponse({ success: false, error: chrome.runtime.lastError.message });
+          return;
+        }
+        
+        cropImage(dataUrl, rect, dpr).then((croppedDataUrl) => {
+          if (action === 'download') {
+            chrome.downloads.download({
+              url: croppedDataUrl,
+              filename: `screenshot-${Date.now()}.png`
+            });
+            sendResponse({ success: true });
+          } else if (action === 'copy') {
+            sendResponse({ success: true, dataUrl: croppedDataUrl });
+          }
+        });
+      });
+    }, 150);
+    
+    return true; // Indicate async response
+  }
+});
+
+async function blobToBase64(blob) {
+  const arrayBuffer = await blob.arrayBuffer();
+  const bytes = new Uint8Array(arrayBuffer);
+  let binary = '';
+  // Avoid Maximum call stack size exceeded for very large images
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return 'data:image/png;base64,' + btoa(binary);
+}
+
+async function cropImage(dataUrl, rect, dpr) {
+  const res = await fetch(dataUrl);
+  const blob = await res.blob();
+  const bitmap = await createImageBitmap(blob);
+  
+  // Create an offscreen canvas
+  const canvas = new OffscreenCanvas(rect.width * dpr, rect.height * dpr);
+  const ctx = canvas.getContext('2d');
+  
+  const sx = rect.x * dpr;
+  const sy = rect.y * dpr;
+  const sWidth = rect.width * dpr;
+  const sHeight = rect.height * dpr;
+  
+  ctx.drawImage(bitmap, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+  
+  const croppedBlob = await canvas.convertToBlob({ type: 'image/png' });
+  
+  return blobToBase64(croppedBlob);
+}
